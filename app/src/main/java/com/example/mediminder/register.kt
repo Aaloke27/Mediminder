@@ -10,14 +10,17 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PersonAddAlt1
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,6 +43,7 @@ fun Register(navHostController: NavHostController) {
     HideSystemBarsRegister()
     var name by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
+    var mobileNumber by rememberSaveable { mutableStateOf("") }
     var age by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var confirmPassword by rememberSaveable { mutableStateOf("") }
@@ -50,6 +54,7 @@ fun Register(navHostController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFE6F0FA))
+            .verticalScroll(rememberScrollState())
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Text(
@@ -66,7 +71,7 @@ fun Register(navHostController: NavHostController) {
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.CenterHorizontally)
-                .height(340.dp)
+                .height(400.dp)
                 .width(300.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color.White)
@@ -114,6 +119,36 @@ fun Register(navHostController: NavHostController) {
                 placeholder = { Text(text = "Email") },
                 leadingIcon = {
                     Icon(imageVector = Icons.Filled.MailOutline, contentDescription = "Email")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 4.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                    errorIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    disabledContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent
+                )
+            )
+
+            Divider(
+                modifier = Modifier
+                    .width(250.dp)
+                    .align(Alignment.CenterHorizontally),
+                color = Color.LightGray,
+                thickness = 1.dp
+            )
+            OutlinedTextField(
+                value = mobileNumber,
+                onValueChange = { if (it.length <= 10) mobileNumber = it },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                placeholder = { Text(text = "Contact Number") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Filled.PersonAddAlt1, contentDescription = "Mobile Number")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -251,7 +286,7 @@ fun Register(navHostController: NavHostController) {
                     email.trim().endsWith("@gmail.com", ignoreCase = true)
                 ) {
                     
-                    navHostController.navigate(Routes.HomePage + "/${name}")
+                    navHostController.navigate(Routes.HomePage + "/${name}/${email}/${age}/${mobileNumber}")
                 } else {
                     Toast.makeText(context, "Enter a valid Email", Toast.LENGTH_SHORT).show()
                 }
@@ -270,7 +305,7 @@ fun Register(navHostController: NavHostController) {
 
 
 
-        Spacer(modifier = Modifier.height(70.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = "Already have an account?",
@@ -278,7 +313,7 @@ fun Register(navHostController: NavHostController) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(7.dp))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,

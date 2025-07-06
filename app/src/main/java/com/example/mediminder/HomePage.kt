@@ -22,7 +22,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
@@ -60,19 +62,22 @@ import java.util.Calendar
 
 
 @Composable
-fun HomePage (navHostController: NavHostController,name: String) {
+fun HomePage (navHostController: NavHostController,name: String,email: String, age: String, mobileNumber : String) {
     HideSystemBarsMainPage()
     var UserName by rememberSaveable { mutableStateOf(name) }
     var medicineName by rememberSaveable { mutableStateOf("Paracetamol") }
     var medicineTime by rememberSaveable { mutableStateOf("8:00 am") }
-
+    var email by  rememberSaveable { mutableStateOf(email) }
+    var number by  rememberSaveable { mutableStateOf(mobileNumber) }
+    var age by rememberSaveable { mutableStateOf(age) }
 
 
     Column(
         modifier = Modifier
-            .background(Color(0xFFF0FDFF))
+            .background(Color(0xFFF9F3EF))
             .fillMaxSize()
             .padding(WindowInsets.systemBars.asPaddingValues())
+            .verticalScroll(rememberScrollState())
     ) {
 
         val currentHour = remember {
@@ -218,12 +223,12 @@ fun HomePage (navHostController: NavHostController,name: String) {
         ){
 
             BottomNavItem(Icons.Filled.Home, "Home", color = Color(0xFF6EA5F7)) {
-                navHostController.navigate(Routes.HomePage + "/${UserName}")            }
+                navHostController.navigate(Routes.HomePage + "/${UserName}/${email}/${age}/${number}")            }
             BottomNavItem(Icons.Filled.AddCircle, "Add", color = Color(0xFF6EA5F7)) {
                 navHostController.navigate(Routes.MedicalAddScreen)
             }
             BottomNavItem(Icons.Filled.AccountCircle, "Profile", color = Color(0xFF6EA5F7)) {
-                navHostController.navigate(Routes.Profile)
+                navHostController.navigate(Routes.Profile + "/${UserName}/${email}/${age}/${number}")
             }
 
 

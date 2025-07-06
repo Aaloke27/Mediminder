@@ -23,11 +23,26 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(Routes.HomePageWithArg) {
                         val name = it.arguments?.getString("name")
-                        HomePage(navController, name ?: "Guest")
+                        val email = it.arguments?.getString("email")
+                        val age = it.arguments?.getString("age")
+                        val mobileNumber = it.arguments?.getString("mobileNumber")
+                        HomePage(navController,
+                                 name ?: "Guest",
+                                 email ?:"unknown",
+                                 age ?: "0",
+                            mobileNumber ?: "000")
                     }
 
-                    composable(Routes.Profile){
-                        Profile(navController)
+                    composable(Routes.ProfileWithArg){
+                        val name = it.arguments?.getString("name")
+                        val email = it.arguments?.getString("email")
+                        val age =  it.arguments?.getString("age")
+                        val mobileNumber = it.arguments?.getString("mobileNumber")
+                        Profile(navController,
+                            name ?: "Guest",
+                            email ?:"unknown",
+                            age ?: "0",
+                            mobileNumber ?: "000")
                     }
                     composable(Routes.MedicalAddScreen){
                         MedicalReports(navController)
